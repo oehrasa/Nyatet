@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nyatet.</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#FBF3D9">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <!-- UI APLIKASI WEB UTAMA -->
+    <div class="app-wrap">
+      <header>
+        <div class="logo">Nyatet.</div>
+        <div class="header-actions">
+          <button class="btn-icon" id="themeToggle" title="Mode Gelap/Terang">
+            🌓
+          </button>
+          <button class="btn-icon" id="btnReset" title="Reset Saldo">↻</button>
+        </div>
+      </header>
+
+      <div class="balance-section">
+        <div class="balance-label">Total Saldo</div>
+        <div class="balance-amount" id="balanceDisplay">Rp 0</div>
+      </div>
+
+      <div class="recap-container">
+        <div class="recap-card">
+          <div class="recap-label">Pemasukan</div>
+          <div class="recap-val val-in" id="recapIncome">Rp 0</div>
+        </div>
+        <div class="recap-card">
+          <div class="recap-label">Pengeluaran</div>
+          <div class="recap-val val-out" id="recapExpense">Rp 0</div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="section-title">Tambah Catatan</div>
+        <form id="financeForm">
+          <div class="type-toggle">
+            <input
+              type="radio"
+              id="typeExpense"
+              name="trxType"
+              value="expense"
+              checked
+            />
+            <label for="typeExpense">Pengeluaran</label>
+            <input type="radio" id="typeIncome" name="trxType" value="income" />
+            <label for="typeIncome">Pemasukan</label>
+          </div>
+          <div class="input-box"><input type="date" id="date" required /></div>
+          <div class="input-box">
+            <input
+              type="text"
+              id="desc"
+              placeholder="Keterangan (Makan, Gaji, dll)"
+              autocomplete="off"
+            />
+          </div>
+          <div class="input-box">
+            <input
+              type="text"
+              id="amount"
+              placeholder="Jumlah Nominal"
+              inputmode="numeric"
+              required
+              autocomplete="off"
+            />
+          </div>
+          <div class="input-box"><select id="category" required></select></div>
+          <button type="submit" id="btnSubmit" class="btn-submit">
+            Simpan
+          </button>
+        </form>
+      </div>
+
+      <div>
+        <div class="list-header">
+          <div class="section-title">Riwayat</div>
+          <div class="filter-print">
+            <div class="filter-group">
+              <select id="filterPeriod" class="filter-select">
+                <option value="all">Semua Waktu</option>
+                <option value="day">Hari Ini</option>
+                <option value="week">Minggu Ini</option>
+                <option value="month">Bulan Ini</option>
+              </select>
+              <select id="filterType" class="filter-select">
+                <option value="all">Semua Jenis</option>
+                <option value="income">Pemasukan</option>
+                <option value="expense">Pengeluaran</option>
+              </select>
+            </div>
+            <!-- TOMBOL CETAK LAPORAN -->
+            <button
+              id="btnPrint"
+              class="filter-select"
+              style="
+                background: var(--surface);
+                display: flex;
+                align-items: center;
+                gap: 4px;
+              "
+              title="Cetak Laporan"
+            >
+              🖨️ Cetak
+            </button>
+          </div>
+        </div>
+
+        <div class="trx-list" id="transactionContainer"></div>
+      </div>
+    </div>
+
+    <!-- AREA KHUSUS UNTUK CETAK KERTAS (Disembunyikan di layar, muncul saat di-print) -->
+    <div id="printArea">
+      <!-- Konten cetak akan diisi oleh JavaScript -->
+    </div>
+
+    <div id="toast" class="toast" hidden></div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

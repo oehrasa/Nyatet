@@ -1,0 +1,440 @@
+/* --- TEMA ELEGAN & SIMPLE (Minimalist iOS Style) --- */
+:root {
+  --bg-body: #f5f5f7;
+  --surface: #ffffff;
+  --text-main: #1d1d1f;
+  --text-sec: #86868b;
+  --accent: #000000;
+  --income: #34c759;
+  --expense: #ff3b30;
+  --border: #e5e5ea;
+  --input-bg: #f2f2f7;
+  --radius-lg: 24px;
+  --radius-md: 16px;
+}
+
+.dark-mode {
+  --bg-body: #000000;
+  --surface: #1c1c1e;
+  --text-main: #f5f5f7;
+  --text-sec: #86868b;
+  --accent: #ffffff;
+  --border: #38383a;
+  --input-bg: #2c2c2e;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: var(--bg-body);
+  color: var(--text-main);
+  display: flex;
+  justify-content: center;
+  transition: background-color 0.3s;
+}
+
+.app-wrap {
+  width: 100%;
+  max-width: 420px;
+  min-height: 100vh;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* --- HEADER --- */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.65rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-icon {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-main);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+  transition: 0.2s;
+}
+
+.btn-icon:active {
+  opacity: 0.7;
+}
+
+/* --- KARTU SALDO --- */
+.balance-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0 10px 0;
+}
+
+.balance-label {
+  font-size: 0.85rem;
+  color: var(--text-sec);
+  font-weight: 500;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.balance-amount {
+  font-size: 2.75rem;
+  font-weight: 700;
+  letter-spacing: -1.5px;
+  color: var(--text-main);
+}
+
+/* --- REKAP BOX --- */
+.recap-container {
+  display: flex;
+  gap: 15px;
+}
+
+.recap-card {
+  flex: 1;
+  background: var(--surface);
+  padding: 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+.recap-label {
+  font-size: 0.8rem;
+  color: var(--text-sec);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.recap-val {
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+.val-in {
+  color: var(--income);
+}
+.val-out {
+  color: var(--text-main);
+}
+
+/* --- FORM INPUT --- */
+.form-section {
+  background: var(--surface);
+  padding: 20px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+.section-title {
+  font-size: 1.6rem;
+  font-weight: 500;
+  margin-bottom: 16px;
+  letter-spacing: -0.3px;
+}
+
+.type-toggle {
+  display: flex;
+  background: var(--input-bg);
+  padding: 4px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+.type-toggle input {
+  display: none;
+}
+.type-toggle label {
+  flex: 1;
+  text-align: center;
+  padding: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-sec);
+  cursor: pointer;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+.type-toggle input:checked + label {
+  background: var(--surface);
+  color: var(--text-main);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.input-box {
+  margin-bottom: 12px;
+}
+
+.input-box input,
+.input-box select {
+  width: 100%;
+  background: var(--input-bg);
+  border: none;
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  color: var(--text-main);
+  outline: none;
+}
+.input-box input::placeholder {
+  color: var(--text-sec);
+}
+
+select option {
+  background-color: var(--surface);
+  color: var(--text-main);
+}
+
+.btn-submit {
+  width: 100%;
+  background: var(--accent);
+  color: var(--bg-body);
+  border: none;
+  padding: 16px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.btn-submit:active {
+  opacity: 0.8;
+}
+
+/* --- LIST TRANSAKSI & FILTER --- */
+.list-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.filter-print {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.filter-group {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.filter-select {
+  background: transparent;
+  border: 1px solid var(--border);
+  padding: 4px 8px;
+  border-radius: 6px;
+  color: var(--text-main);
+  font-size: 0.75rem;
+  font-weight: 500;
+  outline: none;
+  cursor: pointer;
+}
+
+.trx-list {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  padding: 10px 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+.trx-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+.trx-item:last-child {
+  border-bottom: none;
+}
+
+.trx-icon {
+  width: 42px;
+  height: 42px;
+  background: var(--input-bg);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  margin-right: 15px;
+}
+
+.trx-info {
+  flex: 1;
+}
+.trx-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 2px;
+}
+.trx-date {
+  font-size: 0.75rem;
+  color: var(--text-sec);
+}
+
+.trx-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.trx-amount {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* Tombol silang kecil simetris */
+.btn-delete {
+  background: var(--input-bg);
+  border: none;
+  color: var(--text-sec);
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.btn-delete:hover {
+  background: var(--expense);
+  color: #ffffff;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px 0;
+  color: var(--text-sec);
+  font-size: 0.9rem;
+}
+
+.text-income {
+  color: var(--income);
+}
+
+/* --- PENGATURAN AREA CETAK (PRINT) KERTAS --- */
+#printArea {
+  display: none;
+} /* Sembunyikan saat di layar biasa */
+
+@media print {
+  body {
+    background-color: white !important;
+    color: black !important;
+  }
+
+  /* Sembunyikan seluruh UI web saat dicetak */
+  .app-wrap {
+    display: none !important;
+  }
+
+  /* Tampilkan area cetak */
+  #printArea {
+    display: block !important;
+    width: 100%;
+    font-family: "Segoe UI", Arial, sans-serif;
+  }
+
+  .print-header {
+    text-align: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #000;
+    padding-bottom: 10px;
+  }
+  .print-header h2 {
+    margin: 0 0 5px 0;
+  }
+  .print-header p {
+    margin: 0;
+    color: #555;
+    font-size: 0.9rem;
+  }
+
+  .print-summary {
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+
+  .print-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .print-table th,
+  .print-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+    font-size: 0.9rem;
+  }
+  .print-table th {
+    background-color: #f5f5f5 !important;
+    font-weight: bold;
+    -webkit-print-color-adjust: exact;
+  }
+  .text-right {
+    text-align: right !important;
+  }
+  .text-center {
+    text-align: center !important;
+  }
+}
+
+/* --- TOAST --- */
+.toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  font-size: 13px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  z-index: 10000;
+  max-width: 90%;
+  text-align: center;
+}
+.toast[hidden] {
+  display: none;
+}

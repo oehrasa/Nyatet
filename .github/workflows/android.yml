@@ -1,0 +1,76 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write # untuk upload APK ke GitHub Release saat tag v*
+
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Install Android SDK packages
+        run: |
+          yes | sdkmanager --licenses > /dev/null || true
+          sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Sync web assets & Capacitor
+        run: npm run sync
+
+      - name: Build debug APK
+        run: cd android && ./gradlew assembleDebug
+
+      - name: Upload debug APK (artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: nyatet-debug-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 30
+
+      - name: Prepare release signing (optional, via secrets)
+        id: signing
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          if [ -n "${{ secrets.NYATET_KEYSTORE_BASE64 }}" ]; then
+            echo "${{ secrets.NYATET_KEYSTORE_BASE64 }}" | base64 -d > android/nyatet-release.jks
+            printf "storeFile=nyatet-release.jks\nstorePassword=%s\nkeyAlias=%s\nkeyPassword=%s\n" \
+              "${{ secrets.NYATET_KEYSTORE_PASSWORD }}" \
+              "${{ secrets.NYATET_KEY_ALIAS }}" \
+              "${{ secrets.NYATET_KEY_PASSWORD }}" > android/keystore.properties
+            echo "signing=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "signing=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build release APK & AAB (signed, on tag)
+        if: startsWith(github.ref, 'refs/tags/v') && steps.signing.outputs.signing == 'true'
+        run: cd android && ./gradlew assembleRelease bundleRelease
+
+      - name: Attach APK/AAB to GitHub Release (on tag)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            android/app/build/outputs/apk/debug/app-debug.apk
+            android/app/build/outputs/apk/release/Nyatet-*.apk
+            android/app/build/outputs/bundle/release/app-release.aab
+          fail_on_unmatched_files: false
