@@ -1,8 +1,7 @@
 {
   "name": "nyatet",
-  "version": "1.0.0",
-  "description": "Nyatet - catatan keuangan pribadi (offline, local)",
-  "main": "script.js",
+  "version": "1.1.1",
+  "description": "Nyatet. \u2014 Catatan keuangan pribadi offline (HTML/JS + Capacitor Android)",
   "scripts": {
     "build:web": "rm -rf www && mkdir -p www && cp index.html script.js style.css favicon.png manifest.json sw.js www/ && cp -r icons www/",
     "sync": "npm run build:web && cap sync",
@@ -10,13 +9,16 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "GPL-3.0-only",
   "dependencies": {
     "@capacitor/android": "^7.6.10",
     "@capacitor/app": "^7.1.2",
-    "@capacitor/cli": "^7.6.10",
     "@capacitor/core": "^7.6.10",
     "@capacitor/status-bar": "^7.0.6",
     "@capgo/capacitor-printer": "^7.0.14"
+  },
+  "private": true,
+  "devDependencies": {
+    "@capacitor/cli": "^7.6.10"
   }
 }

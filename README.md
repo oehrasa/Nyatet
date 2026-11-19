@@ -83,6 +83,17 @@ tanpa prompt Play Protect, distribusikan lewat Google Play (Play App Signing).
 mendistribusikan versi modifikasi (termasuk APK-nya), Anda wajib melampirkan
 source code versi tersebut dengan lisensi yang sama.
 
+### Third-party licenses
+Semua library pihak ketiga yang dibundel dicantumkan di
+[THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) — semuanya permissive
+(MIT/Apache-2.0/ISC/0BSD/BlueOak), kecuali `@capgo/capacitor-printer` (MPL-2.0).
+Dependency native Android (AndroidX dsb.) Apache-2.0. Regenerate daftar dengan:
+
+```bash
+npx license-checker-rseidelsohn --production --json
+npx license-checker-rseidelsohn --development --json
+```
+
 ## Struktur
 - `index.html`, `script.js`, `style.css` — aplikasi web (localStorage)
 - `manifest.json`, `sw.js`, `icons/` — PWA (GitHub Pages)
