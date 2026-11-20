@@ -220,6 +220,20 @@ const updateUI = () => {
   });
 };
 
+// --- CSS inline untuk PDF (dipakai oleh PdfGenerator) ---
+const PRINT_REPORT_CSS = `
+  body { font-family: 'Segoe UI', Arial, sans-serif; color: #111; background: #fff; padding: 24px; margin: 0; }
+  .print-header { text-align: center; margin-bottom: 20px; border-bottom: 2px solid #000; padding-bottom: 10px; }
+  .print-header h2 { margin: 0 0 5px 0; }
+  .print-header p { margin: 0; color: #555; font-size: 0.9rem; }
+  .print-summary { margin-bottom: 20px; line-height: 1.6; }
+  .print-table { width: 100%; border-collapse: collapse; }
+  .print-table th, .print-table td { border: 1px solid #ddd; padding: 10px; text-align: left; font-size: 0.9rem; }
+  .print-table th { background-color: #f5f5f5; font-weight: bold; }
+  .text-right { text-align: right !important; }
+  .text-center { text-align: center !important; }
+`;
+
 // --- FITUR CETAK LAPORAN (PRINT) ---
 
 btnPrint.addEventListener("click", async () => {
@@ -286,17 +300,23 @@ btnPrint.addEventListener("click", async () => {
                 </table>
             `;
 
-  // Tampilkan laporan di area cetak (dipakai oleh browser via @media print,
-  // dan oleh dialog print native di APK via printWebView)
+  // Tampilkan laporan di area cetak (dipakai oleh browser via @media print)
   const printArea = document.getElementById("printArea");
   printArea.innerHTML = reportBody;
 
   if (isNativeApp()) {
-    // Android WebView tidak mengenal window.print() — pakai dialog print native
-    const { Printer } = nativePlugins();
-    if (Printer) {
+    // Android WebView tidak mengenal window.print() — generate PDF dari HTML
+    const { PdfGenerator } = nativePlugins();
+    if (PdfGenerator) {
+      const html = `<!DOCTYPE html><html lang="id"><head><meta charset="utf-8"><title>Laporan Nyatet</title><style>${PRINT_REPORT_CSS}</style></head><body>${reportBody}</body></html>`;
       try {
-        await Printer.printWebView({ name: "Laporan Nyatet" });
+        await PdfGenerator.fromData({
+          data: html,
+          documentSize: "A4",
+          orientation: "portrait",
+          type: "share",
+          fileName: "Laporan Nyatet",
+        });
       } catch (e) {
         showToast("Gagal mencetak: " + (e.message || e));
       }
