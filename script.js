@@ -221,18 +221,6 @@ const updateUI = () => {
 };
 
 // --- FITUR CETAK LAPORAN (PRINT) ---
-const PRINT_REPORT_CSS = `
-  body { font-family: 'Segoe UI', Arial, sans-serif; color: #111; background: #fff; padding: 24px; }
-  .print-header { text-align: center; margin-bottom: 20px; border-bottom: 2px solid #000; padding-bottom: 10px; }
-  .print-header h2 { margin: 0 0 5px 0; }
-  .print-header p { margin: 0; color: #555; font-size: 0.9rem; }
-  .print-summary { margin-bottom: 20px; line-height: 1.6; }
-  .print-table { width: 100%; border-collapse: collapse; }
-  .print-table th, .print-table td { border: 1px solid #ddd; padding: 10px; text-align: left; font-size: 0.9rem; }
-  .print-table th { background-color: #f5f5f5; font-weight: bold; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .text-right { text-align: right !important; }
-  .text-center { text-align: center !important; }
-`;
 
 btnPrint.addEventListener("click", async () => {
   const filteredData = getFilteredData();
@@ -298,13 +286,17 @@ btnPrint.addEventListener("click", async () => {
                 </table>
             `;
 
+  // Tampilkan laporan di area cetak (dipakai oleh browser via @media print,
+  // dan oleh dialog print native di APK via printWebView)
+  const printArea = document.getElementById("printArea");
+  printArea.innerHTML = reportBody;
+
   if (isNativeApp()) {
     // Android WebView tidak mengenal window.print() — pakai dialog print native
     const { Printer } = nativePlugins();
     if (Printer) {
-      const html = `<!DOCTYPE html><html lang="id"><head><meta charset="utf-8"><title>Laporan Nyatet</title><style>${PRINT_REPORT_CSS}</style></head><body>${reportBody}</body></html>`;
       try {
-        await Printer.printHtml({ name: "Laporan Nyatet", html });
+        await Printer.printWebView({ name: "Laporan Nyatet" });
       } catch (e) {
         showToast("Gagal mencetak: " + (e.message || e));
       }
@@ -313,8 +305,6 @@ btnPrint.addEventListener("click", async () => {
   }
 
   // Browser biasa: gunakan @media print + window.print()
-  const printArea = document.getElementById("printArea");
-  printArea.innerHTML = reportBody;
   window.print();
 });
 

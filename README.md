@@ -27,7 +27,7 @@ Release (ditandatangani):
 ```bash
 cd android && ./gradlew assembleRelease bundleRelease
 ```
-Output: `app/build/outputs/apk/release/Nyatet-<versionName>.apk` (mis. `Nyatet-1.1.1.apk`) dan `app/build/outputs/bundle/release/app-release.aab`
+Output: `app/build/outputs/apk/release/Nyatet-<versionName>.apk` (mis. `Nyatet-x.y.z.apk`) dan `app/build/outputs/bundle/release/app-release.aab`
 
 Butuh: **Node 20+**, **JDK 21** (Temurin), Android SDK (platform-tools, platforms;android-35, build-tools;35.0.0).
 Set `ANDROID_HOME` (mis. `~/Android/Sdk`) dan `JAVA_HOME` ke JDK 21.
@@ -42,7 +42,7 @@ Workflow `.github/workflows/android.yml` berjalan otomatis di setiap push ke `ma
 install deps → sync Capacitor → `assembleDebug` → APK diunggah sebagai artifact
 (tab *Actions* → unduh `nyatet-debug-apk`).
 
-Saat push tag `v*` (mis. `git tag v1.1.1 && git push --tags`), APK/AAB release
+Saat push tag `v*` (mis. `git tag v<versionName> && git push --tags`), APK/AAB release
 ditandatangani bila secret ini diset di repo: `NYATET_KEYSTORE_BASE64`
 (isi `base64 -w0 android/nyatet-release.jks`), `NYATET_KEYSTORE_PASSWORD`,
 `NYATET_KEY_ALIAS`, `NYATET_KEY_PASSWORD`. Hasilnya otomatis dilampirkan ke GitHub Release.
@@ -59,7 +59,7 @@ khususnya karena APK di GitHub Releases tidak dilindungi Play Store.
 cd android/app/build/outputs
 sha256sum apk/release/Nyatet-*.apk bundle/release/app-release.aab > ../../../SHA256SUMS-$(git describe --tags --always).txt
 # atau, untuk satu release:
-sha256sum Nyatet-1.1.1.apk app-release.aab > SHA256SUMS.txt
+sha256sum Nyatet-<versionName>.apk app-release.aab > SHA256SUMS.txt
 ```
 Lampirkan `SHA256SUMS*.txt` di GitHub Release bersama APK/AAB.
 (Alternatif: `shasum -a 256` di macOS; format `sha256sum -c` kompatibel keduanya.)
@@ -68,10 +68,10 @@ Lampirkan `SHA256SUMS*.txt` di GitHub Release bersama APK/AAB.
 ```bash
 # Unduh APK + SHA256SUMS.txt dari halaman Releases, lalu:
 sha256sum -c SHA256SUMS.txt
-# -> "Nyatet-1.1.1.apk: OK" berarti file identik dengan rilis resmi.
+# -> "Nyatet-<versionName>.apk: OK" berarti file identik dengan rilis resmi.
 
 # Atau hitung manual dan bandingkan dengan yang tertera di halaman Release:
-sha256sum Nyatet-1.1.1.apk
+sha256sum Nyatet-<versionName>.apk
 ```
 Jika hash tidak cocok: **jangan install** — file mungkin rusak atau dimodifikasi.
 

@@ -1,6 +1,6 @@
 {
   "name": "nyatet",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Nyatet. \u2014 Catatan keuangan pribadi offline (HTML/JS + Capacitor Android)",
   "scripts": {
     "build:web": "rm -rf www && mkdir -p www && cp index.html script.js style.css favicon.png manifest.json sw.js www/ && cp -r icons www/",
