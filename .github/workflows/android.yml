@@ -25,10 +25,13 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - name: Install Android SDK packages
-        run: |
-          yes | sdkmanager --licenses > /dev/null || true
-          sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          actions-options: |
+            sdkmanager "platform-tools"
+            sdkmanager "platforms;android-35"
+            sdkmanager "build-tools;35.0.0"
 
       - name: Install dependencies
         run: npm ci
@@ -61,9 +64,15 @@ jobs:
             echo "signing=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Build release APK & AAB (signed, on tag)
-        if: startsWith(github.ref, 'refs/tags/v') && steps.signing.outputs.signing == 'true'
+      - name: Build release APK & AAB (on tag)
+        if: startsWith(github.ref, 'refs/tags/v')
         run: cd android && ./gradlew assembleRelease bundleRelease
+
+      - name: Generate SHA256SUMS (on tag)
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          sha256sum android/app/build/outputs/apk/release/Nyatet-*.apk \
+                    android/app/build/outputs/bundle/release/app-release.aab > SHA256SUMS.txt
 
       - name: Attach APK/AAB to GitHub Release (on tag)
         if: startsWith(github.ref, 'refs/tags/v')
@@ -73,4 +82,5 @@ jobs:
             android/app/build/outputs/apk/debug/app-debug.apk
             android/app/build/outputs/apk/release/Nyatet-*.apk
             android/app/build/outputs/bundle/release/app-release.aab
+            SHA256SUMS.txt
           fail_on_unmatched_files: false
