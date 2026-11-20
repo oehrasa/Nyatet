@@ -1,6 +1,6 @@
 # Nyatet.
 
-Catatan keuangan pribadi — offline, berjalan sepenuhnya di perangkat.
+Catatan keuangan pribadi offline, berjalan sepenuhnya local di perangkat.
 Kotlin/Java tidak diperlukan: aplikasi ini adalah HTML + CSS + JavaScript
 yang dibungkus menjadi APK Android dengan [Capacitor](https://capacitorjs.com).
 
@@ -34,7 +34,7 @@ Set `ANDROID_HOME` (mis. `~/Android/Sdk`) dan `JAVA_HOME` ke JDK 21.
 
 ### Signing
 `android/keystore.properties` dan `android/nyatet-release.jks` **tidak di-commit**
-(ada di `.gitignore`). Backup keduanya di tempat aman — tanpa itu, update aplikasi
+(ada di `.gitignore`). Backup keduanya di tempat aman, tanpa itu, update aplikasi
 tidak bisa ditandatangani dengan kunci yang sama.
 
 ## CI (GitHub Actions)
@@ -51,7 +51,7 @@ ditandatangani bila secret ini diset di repo: `NYATET_KEYSTORE_BASE64`
 ## Verifikasi SHA-256 (integritas APK/AAB)
 
 Setiap rilis dapat disertai checksum SHA-256 agar siapa pun bisa memastikan
-file yang diunduh identik dengan yang dibangun dari source code — penting
+file yang diunduh identik dengan yang dibangun dari source code, hal ini penting
 khususnya karena APK di GitHub Releases tidak dilindungi Play Store.
 
 ### Bagi maintainer (membuat checksum)
@@ -73,19 +73,18 @@ sha256sum -c SHA256SUMS.txt
 # Atau hitung manual dan bandingkan dengan yang tertera di halaman Release:
 sha256sum Nyatet-<versionName>.apk
 ```
-Jika hash tidak cocok: **jangan install** — file mungkin rusak atau dimodifikasi.
+Jika hash tidak cocok: **jangan install** — file mungkin rusak atau tampered.
 
-Catatan: checksum menjamin integritas file, bukan bebas virus — untuk instalasi
-tanpa prompt Play Protect, distribusikan lewat Google Play (Play App Signing).
+Catatan: checksum menjamin integritas file benar benar dari source yg bisa di audit secara independen.
 
 ## Lisensi
-[GNU General Public License v3.0](LICENSE) — source code terbuka; bila Anda
+[GNU General Public License v3.0](LICENSE) source code terbuka; bila Anda
 mendistribusikan versi modifikasi (termasuk APK-nya), Anda wajib melampirkan
 source code versi tersebut dengan lisensi yang sama.
 
 ### Third-party licenses
 Semua library pihak ketiga yang dibundel dicantumkan di
-[THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) — semuanya permissive
+[THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md), semuanya permissive
 (MIT/Apache-2.0/ISC/0BSD/BlueOak), kecuali `@capgo/capacitor-printer` (MPL-2.0).
 Dependency native Android (AndroidX dsb.) Apache-2.0. Regenerate daftar dengan:
 
